@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Work | Vansh Verma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --dark: #0E0E0E;
+            --light: #F5F2EE;
+            --light-2: #EDE9E3;
+            --mid: #888;
+            --cream: #C9A55A;
+            --cream-light: #F7F0E4;
+            --accent: #E8531A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        .cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--dark);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+        }
+
+        .cursor-follower {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--dark);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.12s ease;
+            opacity: 0.4;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease, padding 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(245, 242, 238, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 16px 60px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-back {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .nav-back:hover {
+            opacity: 1;
+        }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(14, 14, 14, 0.92) 0%, rgba(14, 14, 14, 0.45) 50%, rgba(14, 14, 14, 0.15) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 60px 70px;
+            width: 100%;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+        }
+
+        .hero-tag span {
+            width: 28px;
+            height: 1px;
+            background: #fff;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(52px, 7vw, 100px);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            color: #fff;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: #E8D5B0;
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        /* PROJECTS BODY */
+        .projects-body {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 40px;
+        }
+
+        /* SECTION LABEL */
+        .cs-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 20px;
+        }
+
+        .cs-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--dark);
+            display: inline-block;
+        }
+
+        /* PROJECT BLOCK */
+        .project-block {
+            margin-bottom: 120px;
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .project-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--light-2);
+        }
+
+        .project-header-left {
+            flex: 1;
+        }
+
+        .project-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--mid);
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .project-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 3.5vw, 48px);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            color: var(--dark);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .project-name em {
+            font-style: italic;
+            color: #555;
+        }
+
+        .project-desc {
+            font-size: 15px;
+            color: #555;
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .tag {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            background: var(--light-2);
+            border-radius: 100px;
+            color: #555;
+        }
+
+        /* IMAGES GRID */
+        .images-single {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+        }
+
+        .images-single img {
+            width: 100%;
+            display: block;
+        }
+
+        .images-two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .images-two .img-wrap {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .images-two .img-wrap img {
+            width: 100%;
+            display: block;
+        }
+
+        .images-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .images-three .img-wrap {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .images-three .img-wrap img {
+            width: 100%;
+            display: block;
+        }
+
+        .img-caption {
+            text-align: center;
+            font-size: 13px;
+            color: var(--mid);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* DESIGN NOTES BOX */
+        .design-notes {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 40px 44px;
+            margin-top: 24px;
+            color: #fff;
+        }
+
+        .design-notes-title {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .design-notes-title::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            display: inline-block;
+        }
+
+        .design-notes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .design-note-item {}
+
+        .design-note-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 6px;
+        }
+
+        .design-note-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* DIVIDER */
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--light-2);
+            margin: 0 0 120px 0;
+        }
+
+        /* BACK TO PORTFOLIO */
+        .back-section {
+            border-top: 1px solid var(--light-2);
+            padding-top: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .back-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-label {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 12px;
+        }
+
+        .back-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: var(--dark);
+        }
+
+        .back-arrow {
+            width: 64px;
+            height: 64px;
+            background: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .back-arrow:hover {
+            transform: scale(1.1);
+            background: #333;
+        }
+
+        footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.4);
+            padding: 32px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 24px;
+            }
+
+            nav.scrolled {
+                padding: 14px 24px;
+            }
+
+            .hero-content {
+                padding: 0 24px 50px;
+            }
+
+            .projects-body {
+                padding: 60px 24px;
+            }
+
+            .project-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .images-two {
+                grid-template-columns: 1fr;
+            }
+
+            .images-three {
+                grid-template-columns: 1fr;
+            }
+
+            .design-notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-section {
+                flex-direction: column;
+                gap: 32px;
+                align-items: flex-start;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 16px;
+                padding: 24px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">Vansh.</a>
+        <a href="index.html#work" class="nav-back">← Back to Work</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <img src="ChatGPT Image May 8, 2026, 12_04_50 AM.png" alt="Freelance Work" class="hero-img">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag"><span></span> Client Projects</div>
+            <h1>Freelance<br><em>Work</em></h1>
+            <p class="hero-sub">A collection of client projects spanning AI platforms, fintech, e-commerce, and food —
+                each designed with purpose and care.</p>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <div class="projects-body">
+
+        <!-- 01 YWORKAI -->
+        <div class="project-block">
+            <div class="project-header">
+                <div class="project-header-left">
+                    <div class="project-number">01 / 04</div>
+                    <div class="project-name">YworkAI —<br><em>Landing Page</em></div>
+                    <p class="project-desc">Designed a responsive landing page for an AI productivity platform — clean,
+                        modern UI with a focus on communicating complex AI features in a simple, approachable way.</p>
+                    <div class="project-tags">
+                        <span class="tag">UI Design</span>
+                        <span class="tag">Landing Page</span>
+                        <span class="tag">Figma</span>
+                        <span class="tag">AI Platform</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="images-single">
+                <img src="Ywork Cover.jpg" alt="YworkAI Cover">
+            </div>
+            <p class="img-caption">YworkAI — Landing page cover</p>
+
+            <div class="images-two" style="margin-top: 16px;">
+                <div class="img-wrap">
+                    <img src="Ywork Wireframe.png" alt="YworkAI Homepage wireframe and desktop">
+                </div>
+                <div class="img-wrap">
+                    <img src="Ywork Prototype.png" alt="YworkAI hi-fi screens">
+                </div>
+            </div>
+            <p class="img-caption">Mobile & desktop designs alongside wireframe explorations</p>
+        </div>
+
+        <!-- 02 BETCO -->
+        <div class="project-block">
+            <div class="project-header">
+                <div class="project-header-left">
+                    <div class="project-number">02 / 04</div>
+                    <div class="project-name">Betco —<br><em>Sports Betting App</em></div>
+                    <p class="project-desc">Designed a full-featured sports betting mobile app for cricket and
+                        multi-sport fans — dark, energetic UI with live match browsing, league selection, bet cart and
+                        profile management.</p>
+                    <div class="project-tags">
+                        <span class="tag">UI/UX Design</span>
+                        <span class="tag">Mobile App</span>
+                        <span class="tag">Figma</span>
+                        <span class="tag">Fintech</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="images-single">
+                <img src="Betco Prototype.png" alt="Betco hi-fi screens">
+            </div>
+            <p class="img-caption">Hi-fi screens — Get Started, Login, Homepage, Sport Select, League, Match, Bet Cart,
+                Profile</p>
+
+            <div class="images-single" style="margin-top: 16px;">
+                <img src="Betco Wireframe.png" alt="Betco wireframes">
+            </div>
+            <p class="img-caption">Lo-fi wireframes — complete user flow from onboarding to placing a bet</p>
+        </div>
+
+        <!-- 03 SOLYTICS -->
+        <div class="project-block">
+            <div class="project-header">
+                <div class="project-header-left">
+                    <div class="project-number">03 / 04</div>
+                    <div class="project-name">Solytics —<br><em>Partners Dashboard</em></div>
+                    <p class="project-desc">Designed a web-based workflow and user management dashboard for a financial
+                        analytics firm — clear role-based access, color-coded statuses, and an efficient header-based
+                        navigation system.</p>
+                    <div class="project-tags">
+                        <span class="tag">Dashboard Design</span>
+                        <span class="tag">Web App</span>
+                        <span class="tag">Figma</span>
+                        <span class="tag">B2B</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="images-single">
+                <img src="Solytics Prototype.png" alt="Solytics dashboard screens">
+            </div>
+            <p class="img-caption">Hi-fi screens — Dashboard, Workflow creation, User management with role-based access
+            </p>
+
+            <div class="design-notes">
+                <div class="design-notes-title">Design Overview & Navigation</div>
+                <div class="design-notes-grid">
+                    <div class="design-note-item">
+                        <div class="design-note-label">User Management Flow</div>
+                        <div class="design-note-text">Entry from Dashboard → click "User Management" via top header. Add
+                            User button opens a modal to enter user details.</div>
+                    </div>
+                    <div class="design-note-item">
+                        <div class="design-note-label">Workflow Navigation</div>
+                        <div class="design-note-text">Accessed from the "Workflow" tab in the top navigation header.
+                            Users are taken directly to the Workflow Dashboard.</div>
+                    </div>
+                    <div class="design-note-item">
+                        <div class="design-note-label">Navigation Structure</div>
+                        <div class="design-note-text">Header-based navigation (no sidebar). Key elements — Dashboard,
+                            Workflow, Profile — placed top-right for quick access.</div>
+                    </div>
+                    <div class="design-note-item">
+                        <div class="design-note-label">Design Decisions</div>
+                        <div class="design-note-text">All screens are high-fidelity. Color-coded user statuses (Active,
+                            Invited, Suspended) and role differentiation through type styling.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 04 MADHUBANI MAKHANA -->
+        <div class="project-block">
+            <div class="project-header">
+                <div class="project-header-left">
+                    <div class="project-number">04 / 04</div>
+                    <div class="project-name">Madhubani —<br><em>Makhana E-Commerce</em></div>
+                    <p class="project-desc">Designed a clean e-commerce website for a premium makhana manufacturer and
+                        supplier — product catalogue with category filters, price range, and a warm earthy visual
+                        identity rooted in 90+ years of legacy.</p>
+                    <div class="project-tags">
+                        <span class="tag">Web Design</span>
+                        <span class="tag">E-Commerce</span>
+                        <span class="tag">Figma</span>
+                        <span class="tag">Food & FMCG</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="images-two">
+                <div class="img-wrap">
+                    <img src="Madhubani Wireframe.png" alt="Madhubani Makhana wireframes">
+                </div>
+                <div class="img-wrap">
+                    <img src="Madhubani Prototype.png" alt="Madhubani Makhana hi-fi">
+                </div>
+            </div>
+            <p class="img-caption">Wireframes alongside hi-fi designs — Homepage and product catalogue with filters</p>
+        </div>
+
+        <!-- BACK TO PORTFOLIO -->
+        <div class="back-section">
+            <div>
+                <div class="back-label">Return</div>
+                <div class="back-title">Back to Homepage ←</div>
+            </div>
+            <a href="index.html" class="back-arrow">←</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Vansh Verma. Designed & coded with care.</p>
+        <a href="index.html">← Back to Portfolio</a>
+    </footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursorFollower');
+        let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            cursor.style.left = mouseX - 5 + 'px';
+            cursor.style.top = mouseY - 5 + 'px';
+        });
+
+        function animateFollower() {
+            followerX += (mouseX - followerX) * 0.12;
+            followerY += (mouseY - followerY) * 0.12;
+            follower.style.left = followerX - 18 + 'px';
+            follower.style.top = followerY - 18 + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2.5)';
+                follower.style.transform = 'scale(1.4)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                follower.style.transform = 'scale(1)';
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.project-block, .back-section').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
